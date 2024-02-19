@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name = "pagamentos_payments_table")
+@Table(name = "payments")
 @Getter
 @Setter
 @AllArgsConstructor

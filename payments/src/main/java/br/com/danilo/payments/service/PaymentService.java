@@ -32,37 +32,29 @@ public class PaymentService {
 
     //%% Buscar Pagamento por ID
     public PaymentDTO findPaymentById(Long id) {
-        Payments payments = paymentRepository
+        Payments paymentFindId = paymentRepository
                 .findById(id)
                 .orElseThrow(() -> new RuntimeException("Pagamento não encontrado ID:| Payment not found ID: " + id));
 
-        return modelMapper.map(payments, PaymentDTO.class);
+        return modelMapper.map(paymentFindId, PaymentDTO.class);
     }
 
     //%% Criar Pagamento
     public PaymentDTO createPayment(PaymentDTO paymentDTO) {
-        Payments payments = modelMapper.map(paymentDTO, Payments.class);
-        payments.setStatus(Status.CREATED);
+        Payments paymentCreated = modelMapper.map(paymentDTO, Payments.class);
+        paymentCreated.setStatus(Status.CREATED);
+        paymentCreated = paymentRepository.save(paymentCreated);                       // Salvar no banco de dados
 
-        return modelMapper.map(payments, PaymentDTO.class);
+        return modelMapper.map(paymentCreated, PaymentDTO.class);
     }
 
     //%% Atualizar Pagamento
     public PaymentDTO updatePayment(Long id, PaymentDTO paymentDTO) {
-        Payments payments = paymentRepository
-                .findById(id)
-                .orElseThrow(() -> new RuntimeException("Pagamento não encontrado ID:| Payment not found ID: " + id));
+        Payments paymentsUpdate = modelMapper.map(paymentDTO, Payments.class);
+        paymentsUpdate.setId(id);                                                       // Setar o ID
+        paymentsUpdate = paymentRepository.save(paymentsUpdate);                  // Salvar no banco de dados
 
-        payments.setValue(paymentDTO.getValue());
-        payments.setName(paymentDTO.getName());
-        payments.setNumber(paymentDTO.getNumber());
-        payments.setExpiration(paymentDTO.getExpiration());
-        payments.setCvv(paymentDTO.getCvv());
-        payments.setStatus(paymentDTO.getStatus());
-        payments.setOrderID(paymentDTO.getOrderID());
-        payments.setFormPayment(paymentDTO.getFormPayment());
-
-        return modelMapper.map(payments, PaymentDTO.class);
+        return modelMapper.map(paymentsUpdate, PaymentDTO.class);
     }
 
     //%% Deletar Pagamento
