@@ -8,11 +8,12 @@
         <version>3.1.8</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>br.com.danilo</groupId>
-    <artifactId>payments</artifactId>
+    <artifactId>orders</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>payments</name>
-    <description>payments</description>
+    <description>Microsserviço de Pedidos</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -107,10 +108,14 @@
             <artifactId>eureka-client</artifactId>
             <version>2.0.1</version>
         </dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.2</version>
+		</dependency>
 
 
-    </dependencies>
-
+	</dependencies>
 
     <build>
         <plugins>
@@ -118,9 +123,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <image>
-                        <builder>paketobuildpacks/builder-jammy-base:latest</builder>
-                    </image>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

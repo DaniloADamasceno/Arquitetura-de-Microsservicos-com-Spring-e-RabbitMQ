@@ -46,7 +46,7 @@
 - Segurança
 - Comunicação Assíncrona.
 
-A implementação de uma arquiterura de microsserviços tem o objetivo de atender as seguintes necessidades:
+A implementação de uma arquitetura de microsserviços tem o objetivo de atender as seguintes necessidades:
 
 - Diversidade tecnológica e experimentação.
 - Maior isolamento de falhas.
@@ -57,6 +57,14 @@ A implementação de uma arquiterura de microsserviços tem o objetivo de atende
 ### Pagamento
 
 - Microsserviço de pagamentos da rede de franquias.
+
+### Pedidos
+
+- Microsserviços de Pedidos da rede de franquias.
+
+### Eureka
+
+- Servidor de configurações 
 
 </br>
 </br>
@@ -112,7 +120,6 @@ Se desejar contribuir para este projeto, siga estas etapas:
 ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 
-<!-- ![SpringBoot](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white "Badge Spring Boot") -->
 
 ## Autores
 
@@ -125,6 +132,13 @@ Se desejar contribuir para este projeto, siga estas etapas:
 ***
 
 ## Atualizações de Projeto e suas Versões
+
+### **Atualização**: 1.1.0:
+
+- Desenvolvimento Microsserviço de Pedido e servido de configurações.
+- BACK-END em desenvolvimento.
+- --> **PROJETO EM DESENVOLVIMENTO.**
+  </br>
 
 ### **Atualização**: 1.0.0:
 
