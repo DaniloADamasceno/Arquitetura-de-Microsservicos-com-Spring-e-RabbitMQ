@@ -2,6 +2,7 @@ package br.com.danilo.payments.controller;
 
 import br.com.danilo.payments.dto.PaymentDTO;
 import br.com.danilo.payments.service.PaymentService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,14 @@ public class PaymentController {
 
     //%% Buscar todos os Pagamentos
     @GetMapping
+    @Operation(summary = "Listar todos os pagamentos")
     public Page<PaymentDTO> listAllPaymentsController(@PageableDefault(size = 10) Pageable pageable) {
         return paymentServiceController.findAllPayments(pageable);
     }
 
     //%% Buscar Pagamento por ID
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar pagamento por ID")
     public ResponseEntity<PaymentDTO> findPaymentByIdController(@PathVariable @NotNull Long id) {
         PaymentDTO paymentDtoController = paymentServiceController.findPaymentById(id);
 
@@ -41,6 +44,7 @@ public class PaymentController {
 
     //%% Cadastrar Pagamento
     @PostMapping
+    @Operation(summary = "Cadastrar pagamento")
     public ResponseEntity<PaymentDTO>registerPaymentController(@RequestBody @Valid PaymentDTO paymentDTO, UriComponentsBuilder uriBuilder) {
         PaymentDTO paymentDtoController = paymentServiceController.createPayment(paymentDTO);
         URI uriAddress = uriBuilder.path("/payments/{id}").buildAndExpand(paymentDtoController.getId()).toUri();
@@ -50,6 +54,7 @@ public class PaymentController {
 
     //%% Atualizar Pagamento
     @PutMapping("/{id}")
+    @Operation(summary = "Atualizar pagamento")
     public ResponseEntity<PaymentDTO> updatePaymentController(@PathVariable @NotNull Long id, @RequestBody @Valid PaymentDTO paymentDTO) {
         PaymentDTO paymentDtoController = paymentServiceController.updatePayment(id, paymentDTO);
 
@@ -58,6 +63,7 @@ public class PaymentController {
 
     //%% Deletar Pagamento
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar pagamento")
     public ResponseEntity<PaymentDTO> deletePaymentController(@PathVariable @NotNull Long id) {
         paymentServiceController.deletePayment(id);
 

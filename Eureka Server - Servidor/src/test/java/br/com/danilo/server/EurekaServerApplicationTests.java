@@ -1,4 +1,4 @@
-package br.com.danilo.eureka;
+package br.com.danilo.server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

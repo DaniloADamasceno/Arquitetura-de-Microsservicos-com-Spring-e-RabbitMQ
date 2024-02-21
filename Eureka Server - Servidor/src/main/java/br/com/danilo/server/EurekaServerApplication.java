@@ -1,4 +1,4 @@
-package br.com.danilo.eureka;
+package br.com.danilo.server;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

@@ -3,9 +3,11 @@ package br.com.danilo.orders.controller;
 import br.com.danilo.orders.dto.OrderDto;
 import br.com.danilo.orders.dto.StatusDto;
 import br.com.danilo.orders.service.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -24,12 +26,14 @@ public class OrderController {
     //! -----------------------------------------------  Methods  ------------------------------------------------------
     //%% Buscar todos os Pedidos
     @GetMapping()
+    @Operation(summary = "Buscar todos os pedidos")
     public List<OrderDto> listAllOrdersController() {
         return orderService.findAllOrders();
     }
 
     //%% Buscar Pedidos por ID
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar pedido por ID")
     public ResponseEntity<OrderDto> findOrdersByIdController(@PathVariable @NotNull Long id) {
         OrderDto orderDtoController = orderService.findOrderById(id);
 
@@ -38,6 +42,7 @@ public class OrderController {
 
     //%% Realizar Pedido
     @PostMapping()
+    @Operation(summary = "Realizar pedido")
     public ResponseEntity<OrderDto> registerOrderController(@RequestBody @Valid OrderDto orderDto, UriComponentsBuilder uriBuilder) {
         OrderDto orderDtoController = orderService.createOrder(orderDto);
         URI uriAddressOrder = uriBuilder.path("/orders/{id}").buildAndExpand(orderDtoController.getIdDto()).toUri();
@@ -48,6 +53,7 @@ public class OrderController {
 
     //%% Atualizar Status do Pedido
     @PutMapping("/{id}/status")
+    @Operation(summary = "Atualizar status do pedido")
     public ResponseEntity<OrderDto> updateStatusOrderController(@PathVariable Long id, @RequestBody StatusDto status) {
         OrderDto orderDtoUpdateStatus = orderService.updateStatusOrder(id, status);
 
@@ -56,9 +62,18 @@ public class OrderController {
 
     //%% Aprovar Pagamento
     @PutMapping("/{id}/pago")
+    @Operation(summary = "Aprovar pagamento")
     public ResponseEntity<Void> approvePayment(@PathVariable @NotNull Long id) {
         orderService.approvePaymentOrder(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    //%% Retornar a porta do serviço
+    @GetMapping("/port")
+    @Operation(summary = "Retornar porta")
+    public String ReturnPort(@Value("${local.server.port}") String port) {
+        return String.format("Request Responded to the Door:" +
+                             "| Requisição Respondida na Porta: %s", port);
     }
 }
