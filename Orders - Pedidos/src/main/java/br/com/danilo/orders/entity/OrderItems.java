@@ -1,17 +1,18 @@
 package br.com.danilo.orders.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+import javax.validation.constraints.Positive;
 
 
 @Entity
-@Table(name = "item_order")
+@Table(name = "order_items")
 @Getter
 @Setter
 @NoArgsConstructor

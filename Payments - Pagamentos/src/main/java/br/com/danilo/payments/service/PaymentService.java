@@ -3,12 +3,16 @@ package br.com.danilo.payments.service;
 import br.com.danilo.payments.dto.PaymentDTO;
 import br.com.danilo.payments.entity.Payments;
 import br.com.danilo.payments.entity.Status;
+import br.com.danilo.payments.http.OrderClient;
 import br.com.danilo.payments.repository.PaymentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 public class PaymentService {
@@ -20,6 +24,9 @@ public class PaymentService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private OrderClient orderClient;
 
     //! -----------------------------------------------  Methods  ------------------------------------------------------
 
@@ -34,7 +41,7 @@ public class PaymentService {
     public PaymentDTO findPaymentById(Long id) {
         Payments paymentFindId = paymentRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Pagamento não encontrado ID:| Payment not found ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Pagamento não encontrado ID:| Payment not found ID: " + id));
 
         return modelMapper.map(paymentFindId, PaymentDTO.class);
     }
@@ -61,8 +68,32 @@ public class PaymentService {
     public void deletePayment(Long id) {
         paymentRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Pagamento não encontrado ID:| Payment not found ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Pagamento não encontrado ID:| Payment not found ID: " + id));
 
         paymentRepository.deleteById(id);
+    }
+
+    //%% Confirmar Pagamento
+    public void approvePayment(Long id) {
+        Optional<Payments> paymentOptional = paymentRepository.findById(id);
+
+        if (paymentOptional.isEmpty()) {
+            throw new EntityNotFoundException("Pagamento não encontrado ID:| Payment not found ID: " + id);
+        }
+
+        paymentOptional.get().setStatus(Status.CONFIRMED);
+        paymentRepository.save(paymentOptional.get());
+        orderClient.updateOrderStatusToPaidOut(paymentOptional.get().getOrderID());
+    }
+
+    //%% FALLBACK --> Confirmar Pagamento (Circuit Breaker)
+    public void changeStatus(Long id) {
+        Optional<Payments> paymentOptional = paymentRepository.findById(id);
+
+        if (paymentOptional.isEmpty()) {
+            throw new EntityNotFoundException("Pagamento não encontrado ID:| Payment not found ID: " + id);
+        }
+
+        paymentOptional.get().setStatus(Status.CONFIRMED_WITHOUT_INTEGRATION);
     }
 }

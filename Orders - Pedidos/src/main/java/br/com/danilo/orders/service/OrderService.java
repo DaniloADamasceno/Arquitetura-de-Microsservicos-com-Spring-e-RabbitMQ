@@ -5,12 +5,12 @@ import br.com.danilo.orders.dto.StatusDto;
 import br.com.danilo.orders.entity.Order;
 import br.com.danilo.orders.entity.Status;
 import br.com.danilo.orders.repository.OrderRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,7 +49,7 @@ public class OrderService {
         orderCreated.setDateTime(LocalDateTime.now());
         orderCreated.setStatus(Status.ACCOMPLISHED);
         orderCreated.getItems().forEach(item -> item.setOrder(orderCreated));
-        Order orderSaved = orderRepository.save(orderCreated);
+        orderRepository.save(orderCreated);
 
         return modelMapper.map(orderCreated, OrderDto.class);
     }

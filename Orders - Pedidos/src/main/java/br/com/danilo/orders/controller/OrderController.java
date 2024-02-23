@@ -3,15 +3,15 @@ package br.com.danilo.orders.controller;
 import br.com.danilo.orders.dto.OrderDto;
 import br.com.danilo.orders.dto.StatusDto;
 import br.com.danilo.orders.service.OrderService;
+import com.sun.istack.NotNull;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -61,7 +61,7 @@ public class OrderController {
     }
 
     //%% Aprovar Pagamento
-    @PutMapping("/{id}/pago")
+    @PutMapping("/{id}/paidOut")
     @Operation(summary = "Aprovar pagamento")
     public ResponseEntity<Void> approvePayment(@PathVariable @NotNull Long id) {
         orderService.approvePaymentOrder(id);
